@@ -1,5 +1,6 @@
 package com.example.ijournal;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -9,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -46,6 +48,13 @@ public class NoteListActivity extends AppCompatActivity {
 
         listNotes.setAdapter(adapterNotes);
 
+        listNotes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(NoteListActivity.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
 
     }
 
