@@ -21,6 +21,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
     public static final String NOTE_INFO = "com.example.ijournal.NOTE_INFO";
     private NoteInfo mNote;
+    private boolean mIsNewNote;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +46,8 @@ public class MainActivity extends AppCompatActivity {
         EditText textNoteTitle = findViewById(R.id.text_value_title);
         EditText textNoteText = findViewById(R.id.text_value_note);
 
-        displayNote(spinnerCourses, textNoteTitle, textNoteText);
+        if(!mIsNewNote)
+            displayNote(spinnerCourses, textNoteTitle, textNoteText);
     }
 
     private void displayNote(Spinner spinnerCourses, EditText textNoteTitle, EditText textNoteText) {
@@ -58,8 +60,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void readDisplayStateValues() {
-        Intent intet = getIntent();
-        mNote = intet.getParcelableExtra(NOTE_INFO);
+        Intent intent = getIntent();
+        mNote = intent.getParcelableExtra(NOTE_INFO);
+        mIsNewNote = mNote == null;
+
     }
 
     @Override
