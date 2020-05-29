@@ -22,6 +22,26 @@ public class MainActivity extends AppCompatActivity {
     private EditText mTextNoteTitle;
     private EditText mTextNoteText;
     private Spinner mSpinnerCourses;
+    private int mNotePosition;
+    private boolean mIsCanceling;
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if(mIsCanceling){
+            if(mIsNewNote)
+                DataManager.getInstance().removeNote(mNotePosition);
+
+        }else {
+            saveNote();
+        }
+    }
+
+    private void saveNote() {
+        mNote.setCourse((CourseInfo) mSpinnerCourses.getSelectedItem());
+        mNote.setText(mTextNoteTitle.getText().toString());
+        mNote.setText(mTextNoteText.getText().toString());
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,9 +83,17 @@ public class MainActivity extends AppCompatActivity {
         int position = intent.getIntExtra(NOTE_POSITION, POSITION_NOT_SET);
         mIsNewNote = position == POSITION_NOT_SET;
 
-        if(!mIsNewNote)
+        if(mIsNewNote){
+            createNewNote();
+        }else {
             mNote = DataManager.getInstance().getNotes().get(position);
+        }
+    }
 
+    private void createNewNote() {
+        DataManager dm = DataManager.getInstance();
+        mNotePosition = dm.createNewNote();
+        mNote = dm.getNotes().get(mNotePosition);
     }
 
     @Override
@@ -86,6 +114,9 @@ public class MainActivity extends AppCompatActivity {
         if (id == R.id.action_send_mail) {
             sendEmail();
             return true;
+        } else if (id == R.id.action_cancel){
+            mIsCanceling = true;
+            finish();
         }
 
         return super.onOptionsItemSelected(item);
