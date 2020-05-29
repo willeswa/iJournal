@@ -16,23 +16,20 @@ import android.widget.ListView;
 
 import java.util.List;
 
-public class NoteListActivity extends AppCompatActivity {
+public class JornaList2Activity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_note_list);
-        setContentView(R.layout.fragment_first2);
-
+        setContentView(R.layout.activity_jorna_list2);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
-
             @Override
-            public void onClick(View v) {
-                startActivity(new Intent(NoteListActivity.this, MainActivity.class));
+            public void onClick(View view) {
+                startActivity(new Intent(JornaList2Activity.this, MainActivity.class));
             }
         });
 
@@ -40,7 +37,7 @@ public class NoteListActivity extends AppCompatActivity {
     }
 
     private void initializeDisplayContent() {
-        final ListView listNotes = findViewById(R.id.list_notes);
+        final ListView listNotes = findViewById(R.id.note_lists);
 
         List<NoteInfo> notes = DataManager.getInstance().getNotes();
 
@@ -51,15 +48,14 @@ public class NoteListActivity extends AppCompatActivity {
         listNotes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(NoteListActivity.this, MainActivity.class);
-                NoteInfo note = (NoteInfo) listNotes.getItemAtPosition(position);
-                intent.putExtra(MainActivity.NOTE_INFO, note);
+                Intent intent = new Intent(JornaList2Activity.this, MainActivity.class);
+//                NoteInfo note = (NoteInfo) listNotes.getItemAtPosition(position);
+                intent.putExtra(MainActivity.NOTE_POSITION, position);
 
                 startActivity(intent);
             }
         });
 
     }
-
 
 }
